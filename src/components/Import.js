@@ -1,11 +1,25 @@
 import React from 'react'
 import { Container, Menu, MenuItem, Button, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-
-
+import { MoreVert } from '@material-ui/icons'
 
 
 const Import = (props) => {
-    // fill out this component
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [index, setIndex] = React.useState(null);
+
+    const handleClick = (event, index) => {
+      setAnchorEl(event.currentTarget);
+      setIndex(index);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+      setIndex(null);
+    };
+
+
     return (
         <Container maxWidth="lg" className="car-container">
             <h2>COUNT: {props.makes.length}</h2>
@@ -26,14 +40,28 @@ const Import = (props) => {
                             </TableCell>
                             <TableCell>{make.MakeName}</TableCell>
                             <TableCell>
-                                <MenuItem onClick={() => props.deleteMake(index)}>
-                                    Delete
-								</MenuItem>
+                                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={event => handleClick(event, index)}>
+                                <MoreVert/>
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={() => {
+                    props.deleteMake(index);
+                    handleClose();
+                }}>
+                    Delete
+				</MenuItem>
+            </Menu>
         </Container>
     )
 }

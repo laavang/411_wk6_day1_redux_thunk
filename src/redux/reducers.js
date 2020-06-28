@@ -20,6 +20,7 @@ const makes = (state = [], action) => {
         case 'FETCH_MAKES':
             return action.value
         case 'DELETE_MAKE':
+            console.log("Action value: " + action.value)
             const makes = [ ...state ]
             makes.splice(action.value, 1)
             return makes
